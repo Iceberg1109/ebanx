@@ -32,9 +32,12 @@ app.use(function (req, res, next) {
 // User Routes
 app.use("/", routes);
 
+// The variable for account data, should be changed to the database in the live mode
+global.accounts = [];
+
 // either use port 5000 (dev) or the environment variable for PORT (when putting on a live server)
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001;
 const host = process.env.HOST || "0.0.0.0";
 
 // Start the server on the selected port
-app.listen(port, host, () => log.info(`Server running on port ${port}`));
+app.listen(port, host, () => console.log(`Server running on port ${port}`));
