@@ -61,18 +61,28 @@ module.exports = {
   transfer: function (origin, dest, amount) {
     let orgIdx = global.accounts.findIndex((v) => v.id === origin);
     let destIdx = global.accounts.findIndex((v) => v.id === dest);
-    let balance = 0;
-    if (orgIdx === -1 || destIdx === -1) {
-      // Not found
+    let destBalance = 0;
+    if (orgIdx === -1) {
+      // Origin Not found
       return "account_not_found";
     }
-    // Found
     global.accounts[orgIdx].balance -= amount;
-    global.accounts[destIdx].balance += amount;
 
+    if (destIdx === -1) {
+      // Dest Not found
+      global.accounts.push({
+        id: dest,
+        balance: amount,
+      });
+      destBalance = amount;
+    } else {
+      // Dest Found
+      global.accounts[destIdx].balance += amount;
+      destBalance = global.accounts[destIdx].balance;
+    }
     return {
       origin: { id: origin, balance: global.accounts[orgIdx].balance },
-      destination: { id: dest, balance: global.accounts[destIdx].balance },
+      destination: { id: dest, balance: destBalance },
     };
   },
   /*
