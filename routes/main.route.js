@@ -12,7 +12,7 @@ router.post("/reset", (req, res) => {
 });
 
 // @route   POST /event/
-// @desc    Reset the whole account data
+// @desc    deposit, withdraw, and transfer the money of the account
 // @access  Public
 router.post("/event", (req, res) => {
   const { type } = req.body;
@@ -26,6 +26,15 @@ router.post("/event", (req, res) => {
       data = mainController.withdraw(req.body.origin, req.body.amount);
       if (data === "account_not_found") return res.status(404).json(0);
       return res.status(201).json({ origin: data });
+      break;
+    case "transfer":
+      data = mainController.transfer(
+        req.body.origin,
+        req.body.destination,
+        req.body.amount
+      );
+      if (data === "account_not_found") return res.status(404).json(0);
+      return res.status(201).json(data);
       break;
   }
 });
