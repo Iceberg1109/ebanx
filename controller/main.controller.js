@@ -75,4 +75,20 @@ module.exports = {
       destination: { id: dest, balance: global.accounts[destIdx].balance },
     };
   },
+  /*
+   *  Get the balance of the account
+   *    @param id: the id of the account, account_id on the request
+   *
+   *    @return : the balance of the account
+   */
+  getBalance: function (id) {
+    let __idx = global.accounts.findIndex((v) => v.id === id);
+
+    if (__idx === -1) {
+      // Not found
+      return "account_not_found";
+    }
+    // Found
+    return global.accounts[__idx].balance;
+  },
 };

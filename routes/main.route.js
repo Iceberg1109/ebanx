@@ -8,7 +8,7 @@ const mainController = require("../controller/main.controller");
 // @access  Public
 router.post("/reset", (req, res) => {
   mainController.reset();
-  return res.status(200).send();
+  return res.status(200).json("OK");
 });
 
 // @route   POST /event/
@@ -37,6 +37,15 @@ router.post("/event", (req, res) => {
       return res.status(201).json(data);
       break;
   }
+});
+
+// @route   POST /reset/
+// @desc    Reset the whole account data
+// @access  Public
+router.get("/balance", (req, res) => {
+  const balance = mainController.getBalance(req.query.account_id);
+  if (balance !== "account_not_found") return res.status(200).json(balance);
+  return res.status(404).json(0);
 });
 
 module.exports = router;
