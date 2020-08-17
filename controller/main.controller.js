@@ -9,7 +9,7 @@ module.exports = {
     return true;
   },
   /*
-   *  Get the whole account data
+   *  deposit the money to the account
    *    @param dest: the id of the account, destination on the request
    *    @param amount: the amount to deposit
    *
@@ -31,5 +31,23 @@ module.exports = {
       balance = amount;
     }
     return { id: dest, balance };
+  },
+  /*
+   *  Withdraw money from the account
+   *    @param origin: the id of the account, origin on the request
+   *    @param amount: the amount to deposit
+   *
+   *    @return : true
+   */
+  withdraw: function (origin, amount) {
+    let __idx = global.accounts.findIndex((v) => v.id === origin);
+    let balance = 0;
+    if (__idx === -1) {
+      // Not found
+      return "account_not_found";
+    }
+    // Found
+    global.accounts[__idx].balance -= amount;
+    return { id: origin, balance: global.accounts[__idx].balance };
   },
 };

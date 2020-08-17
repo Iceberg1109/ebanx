@@ -15,12 +15,17 @@ router.post("/reset", (req, res) => {
 // @desc    Reset the whole account data
 // @access  Public
 router.post("/event", (req, res) => {
-  const { type, destination, amount } = req.body;
-  console.log(type, destination, amount);
+  const { type } = req.body;
+  let data = null;
   switch (type) {
     case "deposit":
-      const data = mainController.deposit(destination, amount);
+      data = mainController.deposit(req.body.destination, req.body.amount);
       return res.status(201).json({ destination: data });
+      break;
+    case "withdraw":
+      data = mainController.withdraw(req.body.origin, req.body.amount);
+      if (data === "account_not_found") return res.status(404).json(0);
+      return res.status(201).json({ origin: data });
       break;
   }
 });
