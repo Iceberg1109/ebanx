@@ -8,7 +8,7 @@ const mainController = require("../controller/main.controller");
 // @access  Public
 router.post("/reset", (req, res) => {
   mainController.reset();
-  return res.status(200).json("OK");
+  return res.status(200).send("OK");
 });
 
 // @route   POST /event/
